@@ -30,15 +30,17 @@ Each challenge provided a file encoded with a different scheme; the task was to 
 
 | Encoding | Tool(s) Used | Recovered Text |
 |---|---|---|
-| Binary | CyberChef `From Binary` | `GirlWithAPearlEarringVermeer` |
-| Decimal/ASCII | CyberChef `From Decimal` | `StarryNightVanGogh` |
-| Base64 | CyberChef `From Base64` | `MonaLisaDaVinci` |
-| URL Encoding | CyberChef `URL Decode` | `TheScreamMunch` |
-| Hex | CyberChef `From Hex` | `TheBirthOfVenusBotticelli` |
-| Base32 | CyberChef `From Base32` | `ThePersistenceOfMemoryDali` |
-| Quoted-Printable | CyberChef `From Quoted Printable` | `TheNightWatchRembrandt` |
-| HTML Character Entities | Python `html.unescape()` | `FishermenAtSeaTurner` |
-| Uuencoding | Python `binascii.a2b_uu()` | `TheKissKlimt` |
+| Binary | CyberChef `From Binary` | *[redacted — see disclaimer below]* |
+| Decimal/ASCII | CyberChef `From Decimal` | *[redacted]* |
+| Base64 | CyberChef `From Base64` | *[redacted]* |
+| URL Encoding | CyberChef `URL Decode` | *[redacted]* |
+| Hex | CyberChef `From Hex` | *[redacted]* |
+| Base32 | CyberChef `From Base32` | *[redacted]* |
+| Quoted-Printable | CyberChef `From Quoted Printable` | *[redacted]* |
+| HTML Character Entities | Python `html.unescape()` | *[redacted]* |
+| Uuencoding | Python `binascii.a2b_uu()` | *[redacted]* |
+
+> **Note:** Actual decoded values have been withheld to avoid publishing challenge answers for a certification others may still be working toward. This table shows the *method* used for each encoding type, not the solution.
 
 Full write-up: [`writeups/cryptology-fundamentals.md`](writeups/cryptology-fundamentals.md)
 
@@ -48,8 +50,8 @@ MD5 and SHA1 are one-way functions, so these were solved by lookup against preco
 
 | Algorithm | Hash | Cracked Value |
 |---|---|---|
-| MD5 | `8dbdda48fb8748d6746f1965824e966a` | `simple` |
-| SHA1 | `7610bae85f2b530654cc716772f1fe653373e892` | `leonardo` |
+| MD5 | `8dbdda48fb8748d6746f1965824e966a` | *[redacted]* |
+| SHA1 | `7610bae85f2b530654cc716772f1fe653373e892` | *[redacted]* |
 
 ## Query Gate — Live MySQL Enumeration
 
@@ -58,9 +60,9 @@ A "Basic" difficulty practical exercise: enumerate a live target machine and ext
 **Methodology:**
 1. **Recon** — `nmap 172.20.14.206` → found port `3306/tcp open mysql`
 2. **Access** — `mysql -u root -h 172.20.14.206` connected **without a password**, confirming a misconfigured root account
-3. **Enumeration** — `SHOW DATABASES;` revealed 5 databases, including a custom one: `detective_inspector`
-4. **Table discovery** — `USE detective_inspector; SHOW TABLES;` revealed a `hacker_list` table
-5. **Data extraction** — `SELECT * FROM hacker_list;` returned 9 records tagged by hacker type (`gray-hat`, `black-hat`, `white-hat`) — identified the white-hat hacker as `Hackviser` / nickname `h4ckv1s3r`
+3. **Enumeration** — `SHOW DATABASES;` revealed several databases, including one custom, non-default database of interest
+4. **Table discovery** — switching into that database and running `SHOW TABLES;` revealed a table worth investigating
+5. **Data extraction** — a `SELECT * FROM <table>;` query returned the records needed to answer the task's questions
 
 Full write-up with terminal output and screenshots: [`writeups/query-gate.md`](writeups/query-gate.md)
 
@@ -79,4 +81,4 @@ CORE is Hackviser's entry-level cybersecurity certification, covering threat/inc
 
 ---
 
-*Documented by [Mistah Goddy](https://github.com/MistahGoddy) — cybersecurity student @ ICE HUB, Anambra State, Nigeria.*
+*Documented by [Mistah Goddy](https://github.com/MistahGoddy) — cybersecurity student @ ICE HUB, Enugu State, Nigeria.*

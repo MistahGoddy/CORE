@@ -1,126 +1,48 @@
 # Cryptology Fundamentals — Write-up
 
-All challenges in this module followed the same pattern: a file containing an encoded string, where the decoded plaintext is a famous painting title concatenated with its artist's surname (no spaces). This module tests recognition and correct application of common encoding schemes, not cryptography — everything here is reversible without a key.
+All challenges in this module followed a similar pattern: a file containing text encoded with a specific scheme, with the task being to recover the original plaintext. This module tests recognition and correct application of common encoding schemes, not cryptography — everything here is reversible without a key.
+
+> **Note:** In line with certification integrity guidance, this write-up documents *methodology and tools only*. Actual decoded answers and screenshots showing solved output have been withheld so this doesn't function as an answer key for others taking the same certification.
 
 ## Binary
 
-**Input:**
-```
-01000111 01101001 01110010 01101100 01010111 01101001 01110100 01101000 ...
-```
-
-**Method:** CyberChef → `From Binary` (Delimiter: Space, Byte Length: 8)
-
-**Result:** `GirlWithAPearlEarringVermeer`
-
-![Binary decoding](../screenshots/01-binary-decoding.png)
+**Method:** CyberChef → `From Binary` operation (Delimiter: Space, Byte Length: 8) converts each 8-bit binary chunk to its ASCII character.
 
 ## Decimal / ASCII
 
-**Input:**
-```
-83 116 97 114 114 121 78 105 103 104 116 86 97 110 71 111 103 104
-```
-
-**Method:** CyberChef → `From Decimal` (Delimiter: Space)
-
-**Result:** `StarryNightVanGogh`
-
-![Decimal decoding](../screenshots/02-decimal-ascii-decoding.png)
+**Method:** CyberChef → `From Decimal` operation (Delimiter: Space) maps each decimal number directly to its ASCII character.
 
 ## Base64
 
-**Input:**
-```
-TW9uYUxpc2FEYVZpbmNp
-```
-
-**Method:** CyberChef → `From Base64`
-
-**Result:** `MonaLisaDaVinci`
-
-![Base64 decoding](../screenshots/03-base64-decoding.png)
+**Method:** CyberChef → `From Base64` operation reverses standard Base64 encoding back to plaintext.
 
 ## URL Encoding
 
-**Input:**
-```
-%54%68%65%53%63%72%65%61%6D%4D%75%6E%63%68
-```
-
-**Method:** CyberChef → `URL Decode`
-
-**Result:** `TheScreamMunch`
-
-![URL decoding](../screenshots/04-url-decoding.png)
+**Method:** CyberChef → `URL Decode` operation converts `%XX` percent-encoded sequences back to their original characters.
 
 ## Hex
 
-**Input:**
-```
-546865426972746F664656E75734F664426F7474696365 6C6C69
-```
-
-**Method:** CyberChef → `From Hex` (Delimiter: Auto)
-
-**Result:** `TheBirthOfVenusBotticelli`
-
-![Hex decoding](../screenshots/05-hex-decoding.png)
+**Method:** CyberChef → `From Hex` operation (Delimiter: Auto) converts hex byte pairs back to ASCII.
 
 ## Base32
 
-**Input:**
-```
-KRUGKUDFOJZWS43UMVXGGZKPMZGWK3LPOJ4UIYLMNE======
-```
-
-**Method:** CyberChef → `From Base32`
-
-**Result:** `ThePersistenceOfMemoryDali`
-
-![Base32 decoding](../screenshots/06-base32-decoding.png)
+**Method:** CyberChef → `From Base32` operation reverses Base32 encoding using the standard `A-Z2-7=` alphabet.
 
 ## Quoted-Printable
 
-**Input:**
-```
-=54=68=65=4E=69=67=68=74=57=61=74=63=68=52=65=6D=62=72=61=6E=64=74
-```
-
-**Method:** CyberChef → `From Quoted Printable`
-
-**Result:** `TheNightWatchRembrandt`
-
-![Quoted-Printable decoding](../screenshots/07-quoted-printable-decoding.png)
+**Method:** CyberChef → `From Quoted Printable` operation converts `=XX` sequences back to their original characters.
 
 ## HTML Character Entities
 
-**Input:**
-```
-&#70;&#105;&#115;&#104;&#101;&#114;&#109;&#101;&#110;&#65;&#116;&#83;&#101;&#97;&#84;&#117;&#114;&#110;&#101;&#114;
-```
-
-**Method:** Python `html.unescape()` (terminal, Ubuntu)
+**Method:** Solved via Python's built-in `html` module rather than CyberChef, as a way to cross-verify results with a second independent tool.
 
 ```bash
-python3 -c "import html; print(html.unescape('&#70;&#105;&#115;&#104;&#101;&#114;&#109;&#101;&#110;&#65;&#116;&#83;&#101;&#97;&#84;&#117;&#114;&#110;&#101;&#114;'))"
+python3 -c "import html; print(html.unescape('<encoded_string>'))"
 ```
-
-**Result:** `FishermenAtSeaTurner`
-
-![HTML entity decoding](../screenshots/08-html-entities-terminal.png)
 
 ## Uuencoding
 
-**Input:**
-```
-begin 0744 odt_uuencoding_file.dat
-,5&AE2VES<TML:6UT
-`
-end
-```
-
-**Method:** Python `binascii.a2b_uu()` (terminal, Ubuntu)
+**Method:** Solved via Python's `binascii.a2b_uu()`, again to demonstrate the same result achievable outside CyberChef.
 
 ```bash
 python3 -c "
@@ -133,28 +55,12 @@ print(decoded.decode())
 "
 ```
 
-**Result:** `TheKissKlimt`
-
-![Uuencoding decoding](../screenshots/09-uuencoding-terminal.png)
-
 ---
 
 ## Hashing Techniques
 
-MD5 and SHA1 are **one-way** hash functions — there is no algorithm to reverse them directly. The only viable approach is a lookup against precomputed hash tables (rainbow tables) or brute-force/dictionary attacks. Both hashes below were resolved via [CrackStation](https://crackstation.net/), which maintains a 190GB, 15-billion-entry lookup table for MD5/SHA1.
+MD5 and SHA1 are **one-way** hash functions — there is no algorithm to reverse them directly. The only viable approach is a lookup against precomputed hash tables (rainbow tables) or brute-force/dictionary attacks.
 
-### MD5
+**Method:** Both hashes were resolved via [CrackStation](https://crackstation.net/), which maintains a 190GB, 15-billion-entry lookup table for MD5/SHA1. This is a standard first step in real-world password-hash auditing, since unsalted hashes of common words/passwords are almost always already present in public rainbow tables.
 
-**Hash:** `8dbdda48fb8748d6746f1965824e966a`
-
-**Cracked value:** `simple`
-
-![MD5 crack](../screenshots/10-md5-hash-cracking.png)
-
-### SHA1
-
-**Hash:** `7610bae85f2b530654cc716772f1fe653373e892`
-
-**Cracked value:** `leonardo`
-
-![SHA1 crack](../screenshots/11-sha1-hash-cracking.png)
+Actual cracked values are withheld here for the same reason as above.
