@@ -79,4 +79,4 @@ CORE is Hackviser's entry-level cybersecurity certification, covering threat/inc
 
 ---
 
-*Documented by [Mistah Goddy](https://github.com/MistahGoddy) — cybersecurity student @ ICE HUB, Enugu State, Nigeria.*
+*Documented by [Mistah Goddy](https://github.com/MistahGoddy) — cybersecurity student @ ICE HUB, Anambra State, Nigeria.*
