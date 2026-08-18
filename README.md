@@ -58,13 +58,13 @@ MD5 and SHA1 are one-way functions, so these were solved by lookup against preco
 A "Basic" difficulty practical exercise: enumerate a live target machine and extract data from a misconfigured MySQL server.
 
 **Methodology:**
-1. **Recon** — `nmap 172.20.14.206` → found port `3306/tcp open mysql`
-2. **Access** — `mysql -u root -h 172.20.14.206` connected **without a password**, confirming a misconfigured root account
+1. **Recon** — `nmap <target_ip>` → found the target's MySQL port open
+2. **Access** — `mysql -u root -h <target_ip>` connected **without a password**, confirming a misconfigured root account
 3. **Enumeration** — `SHOW DATABASES;` revealed several databases, including one custom, non-default database of interest
 4. **Table discovery** — switching into that database and running `SHOW TABLES;` revealed a table worth investigating
 5. **Data extraction** — a `SELECT * FROM <table>;` query returned the records needed to answer the task's questions
 
-Full write-up with terminal output and screenshots: [`writeups/query-gate.md`](writeups/query-gate.md)
+Full write-up: [`writeups/query-gate.md`](writeups/query-gate.md)
 
 ## Tools Used
 
@@ -81,4 +81,4 @@ CORE is Hackviser's entry-level cybersecurity certification, covering threat/inc
 
 ---
 
-*Documented by [Mistah Goddy](https://github.com/MistahGoddy) — cybersecurity student @ ICE HUB, Anambra State, Nigeria.*
+*Documented by [Mistah Goddy](https://github.com/MistahGoddy) — cybersecurity student @ ICE HUB, Enugu State, Nigeria.*
